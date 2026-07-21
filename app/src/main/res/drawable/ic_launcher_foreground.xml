@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Game Board Path Lines -->
+    <!-- Top-Left Prong and Top-Right Prong and Middle-Top Horizontal Line -->
+    <path
+        android:pathData="M 28,28 L 28,44 L 80,44 L 80,28"
+        android:strokeWidth="3.5"
+        android:strokeColor="#CCCCCC"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+        
+    <!-- Bottom-Left Prong and Bottom-Right Prong and Middle-Bottom Horizontal Line -->
+    <path
+        android:pathData="M 28,80 L 28,64 L 80,64 L 80,80"
+        android:strokeWidth="3.5"
+        android:strokeColor="#CCCCCC"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+        
+    <!-- Central Spine connecting Top-Center to Bottom-Center -->
+    <path
+        android:pathData="M 54,28 L 54,80"
+        android:strokeWidth="3.5"
+        android:strokeColor="#CCCCCC"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- Coin Drop Shadows -->
+    <group>
+        <path android:fillColor="#40000000" android:pathData="M28,30m-6.5,0a6.5,6.5 0,1 1,13 0a6.5,6.5 0,1 1,-13 0" />
+        <path android:fillColor="#40000000" android:pathData="M54,30m-6.5,0a6.5,6.5 0,1 1,13 0a6.5,6.5 0,1 1,-13 0" />
+        <path android:fillColor="#40000000" android:pathData="M80,30m-6.5,0a6.5,6.5 0,1 1,13 0a6.5,6.5 0,1 1,-13 0" />
+        
+        <path android:fillColor="#40000000" android:pathData="M28,82m-6.5,0a6.5,6.5 0,1 1,13 0a6.5,6.5 0,1 1,-13 0" />
+        <path android:fillColor="#40000000" android:pathData="M54,82m-6.5,0a6.5,6.5 0,1 1,13 0a6.5,6.5 0,1 1,-13 0" />
+        <path android:fillColor="#40000000" android:pathData="M80,82m-6.5,0a6.5,6.5 0,1 1,13 0a6.5,6.5 0,1 1,-13 0" />
+    </group>
+
+    <!-- Top Red Coins (with subtle dark border) -->
+    <group>
+        <!-- T1 Red Coin -->
+        <path android:fillColor="#FF3B30" android:pathData="M28,28m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+        <path android:strokeColor="#D01B11" android:strokeWidth="0.8" android:pathData="M28,28m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+        
+        <!-- T2 Red Coin -->
+        <path android:fillColor="#FF3B30" android:pathData="M54,28m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+        <path android:strokeColor="#D01B11" android:strokeWidth="0.8" android:pathData="M54,28m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+        
+        <!-- T3 Red Coin -->
+        <path android:fillColor="#FF3B30" android:pathData="M80,28m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+        <path android:strokeColor="#D01B11" android:strokeWidth="0.8" android:pathData="M80,28m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+    </group>
+
+    <!-- Bottom White Coins (with subtle gray border) -->
+    <group>
+        <!-- B1 White Coin -->
+        <path android:fillColor="#FFFFFF" android:pathData="M28,80m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+        <path android:strokeColor="#CCCCCC" android:strokeWidth="0.8" android:pathData="M28,80m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+        
+        <!-- B2 White Coin -->
+        <path android:fillColor="#FFFFFF" android:pathData="M54,80m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+        <path android:strokeColor="#CCCCCC" android:strokeWidth="0.8" android:pathData="M54,80m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+        
+        <!-- B3 White Coin -->
+        <path android:fillColor="#FFFFFF" android:pathData="M80,80m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+        <path android:strokeColor="#CCCCCC" android:strokeWidth="0.8" android:pathData="M80,80m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+    </group>
+    
+</vector>

@@ -1,0 +1,6 @@
+{
+  "name": "Coin Crossing",
+  "description": "An elegant, strategic two-player board game where you guide three coins across a bottleneck board to occupy the opponent's starting row.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
