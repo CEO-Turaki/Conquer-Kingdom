@@ -20,7 +20,7 @@ import kotlin.random.Random
 
 enum class Player {
     RED,    // Top player (starts at row 0)
-    WHITE   // Bottom player (starts at row 3)
+    WHITE   // Bottom player (starts at row 4)
 }
 
 enum class GameMode {
@@ -82,26 +82,31 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     // Core Board Connection Map
     companion object {
         val boardConnections = listOf(
-            // Vertical top connections
+            // Vertical top connections (Row 0 to Row 1)
             Pair(Position(0, 0), Position(1, 0)),
             Pair(Position(0, 1), Position(1, 1)),
             Pair(Position(0, 2), Position(1, 2)),
             
-            // Horizontal row 1
+            // Horizontal row 1 (Line A)
             Pair(Position(1, 0), Position(1, 1)),
             Pair(Position(1, 1), Position(1, 2)),
             
-            // Bottleneck Central Spine
+            // Central Spine (Row 1 -> Row 2 -> Row 3 -> Row 4)
             Pair(Position(1, 1), Position(2, 1)),
+            Pair(Position(2, 1), Position(3, 1)),
+            Pair(Position(3, 1), Position(4, 1)),
             
-            // Horizontal row 2
+            // Horizontal row 2 (Line B - New Middle Line)
             Pair(Position(2, 0), Position(2, 1)),
             Pair(Position(2, 1), Position(2, 2)),
             
-            // Vertical bottom connections
-            Pair(Position(2, 0), Position(3, 0)),
-            Pair(Position(2, 1), Position(3, 1)),
-            Pair(Position(2, 2), Position(3, 2))
+            // Horizontal row 3 (Line C)
+            Pair(Position(3, 0), Position(3, 1)),
+            Pair(Position(3, 1), Position(3, 2)),
+            
+            // Vertical bottom connections (Row 3 to Row 4)
+            Pair(Position(3, 0), Position(4, 0)),
+            Pair(Position(3, 2), Position(4, 2))
         )
 
         fun getAdjacentPositions(pos: Position): List<Position> {
@@ -115,13 +120,13 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
         private fun initialBoard(): Map<Position, Player?> {
             val map = mutableMapOf<Position, Player?>()
-            // Initialize all 12 positions
-            for (r in 0..3) {
+            // Initialize all 15 positions
+            for (r in 0..4) {
                 for (c in 0..2) {
                     val pos = Position(r, c)
                     map[pos] = when (r) {
                         0 -> Player.RED    // Red starts at row 0
-                        3 -> Player.WHITE  // White starts at row 3
+                        4 -> Player.WHITE  // White starts at row 4
                         else -> null
                     }
                 }
@@ -211,9 +216,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun checkWinCondition(player: Player, currentBoard: Map<Position, Player?>): Boolean {
-        // Red wins if all its coins are in Row 3 (White's starting row)
+        // Red wins if all its coins are in Row 4 (White's starting row)
         // White wins if all its coins are in Row 0 (Red's starting row)
-        val targetRow = if (player == Player.RED) 3 else 0
+        val targetRow = if (player == Player.RED) 4 else 0
         return currentBoard.entries.count { it.key.row == targetRow && it.value == player } == 3
     }
 
@@ -374,7 +379,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-        // 3. Otherwise, prefer moving coins FORWARD (downwards for Red, towards row 3)
+        // 3. Otherwise, prefer moving coins FORWARD (downwards for Red, towards row 4)
         val forwardMoves = legalMoves.filter { it.second.row > it.first.row }
         if (forwardMoves.isNotEmpty() && Random.nextFloat() < 0.75f) {
             return forwardMoves.random()
@@ -485,31 +490,35 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         var score = 0
 
         // 1. Progress Evaluation
-        // Red is seeking to reach Row 3. Higher row is better for Red.
+        // Red is seeking to reach Row 4. Higher row is better for Red.
         // White is seeking to reach Row 0. Lower row is better for White.
         board.forEach { (pos, player) ->
             if (player == Player.RED) {
                 score += when (pos.row) {
                     0 -> 0
                     1 -> 15
-                    2 -> 45
-                    3 -> 150 // Almost winning
+                    2 -> 35
+                    3 -> 75
+                    4 -> 200 // Winning row
                     else -> 0
                 }
-                // Reward center bottleneck control
-                if (pos == Position(1, 1)) score += 30
-                if (pos == Position(2, 1)) score += 25
+                // Reward center bottleneck control (mostly the absolute center (2,1))
+                if (pos == Position(2, 1)) score += 35
+                if (pos == Position(1, 1)) score += 20
+                if (pos == Position(3, 1)) score += 20
             } else if (player == Player.WHITE) {
                 score -= when (pos.row) {
-                    3 -> 0
-                    2 -> 15
-                    1 -> 45
-                    0 -> 150 // Almost winning
+                    4 -> 0
+                    3 -> 15
+                    2 -> 35
+                    1 -> 75
+                    0 -> 200 // Winning row
                     else -> 0
                 }
                 // Penalize opponent bottleneck control
-                if (pos == Position(2, 1)) score -= 30
-                if (pos == Position(1, 1)) score -= 25
+                if (pos == Position(2, 1)) score -= 35
+                if (pos == Position(3, 1)) score -= 20
+                if (pos == Position(1, 1)) score -= 20
             }
         }
 

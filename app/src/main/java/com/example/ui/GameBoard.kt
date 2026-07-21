@@ -78,34 +78,41 @@ fun GameBoard(
             val lineColor = Color(0xFF111111) // Crisp black paths as in image
             val strokeWidth = 11f // Thick and tactile
 
-            // Vertical connections (Top-half prongs)
+            // Vertical connections (Top-half prongs: Row 0 to Row 1)
             drawLine(lineColor, getOffset(Position(0, 0), widthPx, heightPx, marginPx), getOffset(Position(1, 0), widthPx, heightPx, marginPx), strokeWidth)
             drawLine(lineColor, getOffset(Position(0, 2), widthPx, heightPx, marginPx), getOffset(Position(1, 2), widthPx, heightPx, marginPx), strokeWidth)
 
-            // Central vertical spine connecting Top to Bottom
-            drawLine(lineColor, getOffset(Position(0, 1), widthPx, heightPx, marginPx), getOffset(Position(3, 1), widthPx, heightPx, marginPx), strokeWidth)
+            // Central vertical spine connecting Top to Bottom (Row 0 to Row 4)
+            drawLine(lineColor, getOffset(Position(0, 1), widthPx, heightPx, marginPx), getOffset(Position(4, 1), widthPx, heightPx, marginPx), strokeWidth)
 
-            // Vertical connections (Bottom-half prongs)
-            drawLine(lineColor, getOffset(Position(2, 0), widthPx, heightPx, marginPx), getOffset(Position(3, 0), widthPx, heightPx, marginPx), strokeWidth)
-            drawLine(lineColor, getOffset(Position(2, 2), widthPx, heightPx, marginPx), getOffset(Position(3, 2), widthPx, heightPx, marginPx), strokeWidth)
+            // Vertical connections (Bottom-half prongs: Row 3 to Row 4)
+            drawLine(lineColor, getOffset(Position(3, 0), widthPx, heightPx, marginPx), getOffset(Position(4, 0), widthPx, heightPx, marginPx), strokeWidth)
+            drawLine(lineColor, getOffset(Position(3, 2), widthPx, heightPx, marginPx), getOffset(Position(4, 2), widthPx, heightPx, marginPx), strokeWidth)
 
-            // Horizontal row 1 (Middle-High Rail) with arrows pointing outward
+            // Horizontal row 1 (Line A: Middle-High Rail) with arrows pointing outward
             val b1 = getOffset(Position(1, 0), widthPx, heightPx, marginPx)
             val b2 = getOffset(Position(1, 1), widthPx, heightPx, marginPx)
             val b3 = getOffset(Position(1, 2), widthPx, heightPx, marginPx)
             drawArrow(b2, b1, lineColor, strokeWidth)
             drawArrow(b2, b3, lineColor, strokeWidth)
 
-            // Horizontal row 2 (Middle-Low Rail) with arrows pointing outward
+            // Horizontal row 2 (Line B: Absolute Center Rail) with arrows pointing outward
             val c1 = getOffset(Position(2, 0), widthPx, heightPx, marginPx)
             val c2 = getOffset(Position(2, 1), widthPx, heightPx, marginPx)
             val c3 = getOffset(Position(2, 2), widthPx, heightPx, marginPx)
             drawArrow(c2, c1, lineColor, strokeWidth)
             drawArrow(c2, c3, lineColor, strokeWidth)
+
+            // Horizontal row 3 (Line C: Middle-Low Rail) with arrows pointing outward
+            val d1 = getOffset(Position(3, 0), widthPx, heightPx, marginPx)
+            val d2 = getOffset(Position(3, 1), widthPx, heightPx, marginPx)
+            val d3 = getOffset(Position(3, 2), widthPx, heightPx, marginPx)
+            drawArrow(d2, d1, lineColor, strokeWidth)
+            drawArrow(d2, d3, lineColor, strokeWidth)
         }
 
         // 2. Lay down interactive overlays at precise board nodes
-        for (r in 0..3) {
+        for (r in 0..4) {
             for (c in 0..2) {
                 val pos = Position(r, c)
                 val offset = getOffset(pos, widthPx, heightPx, marginPx)
@@ -241,13 +248,14 @@ private fun getOffset(pos: Position, width: Float, height: Float, margin: Float)
     // Column positioning (0 -> Left, 1 -> Center, 2 -> Right)
     val x = margin + pos.col * (usableWidth / 2f)
 
-    // Row positioning (0 -> Top, 1 -> Middle High, 2 -> Middle Low, 3 -> Bottom)
+    // Row positioning (0 -> Top, 1 -> Middle High, 2 -> Absolute Center, 3 -> Middle Low, 4 -> Bottom)
     // Modeled faithfully to match the image's dumbbell/neck shape layout.
     val rowFraction = when (pos.row) {
         0 -> 0.0f
         1 -> 0.22f
-        2 -> 0.78f
-        3 -> 1.0f
+        2 -> 0.5f
+        3 -> 0.78f
+        4 -> 1.0f
         else -> 0.5f
     }
     val y = margin + rowFraction * usableHeight
